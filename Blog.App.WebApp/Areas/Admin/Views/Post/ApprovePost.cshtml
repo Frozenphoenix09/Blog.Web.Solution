@@ -1,0 +1,96 @@
+﻿@model Blog.App.Data.Models.Post
+@using Blog.App.WebApp.Enums
+    
+@{
+    ViewData["Title"] = "ApprovePost";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="slim-pageheader">
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Post Manager</li>
+    </ol>
+    <h6 class="slim-pagetitle">Post-Approve</h6>
+</div><!-- slim-pageheader -->
+<form asp-area="admin" asp-controller="Post" asp-action="ApprovePost">
+    <input type="hidden" name="id" value="@Model.PostId" />
+    <input type="hidden" name="userID" value="@GlobalVariable.CurrentUserID" />
+    <div class="section-wrapper mg-t-20">
+        <div class="form-layout form-layout-7">
+            <div class="row no-gutters">
+                <div class="col-5 col-sm-3">
+                    Title :
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-9">
+                    <input class="form-control" type="text" asp-for="Title">
+                </div><!-- col-8 -->
+            </div><!-- row -->
+            <div class="row no-gutters">
+                <div class="col-5 col-sm-3">
+                    Auhtor Name :
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-9">
+                   @if (Model.AuthorName != null)
+                    {
+                        <input class="form-control" type="text" asp-for="AuthorName">
+                    }
+                    else
+                    {
+                        <input class="form-control" type="text" value=" Null !">
+                    }
+                </div><!-- col-8 -->
+            </div><!-- row -->
+            <div class="row no-gutters">
+                <div class="col-5 col-sm-3">
+                    Category Name :
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-9">
+                   @if (Model.Cat != null)
+                    {
+                        <input class="form-control" type="text" asp-for="Cat.CatName">
+                    }
+                    else
+                    {
+                        <input class="form-control" type="text" value="Category Deleted !">
+                    }
+                </div><!-- col-8 -->
+            </div><!-- row -->
+            <div class="row no-gutters">
+                <div class="col-5 col-sm-3">
+                    Owner :
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-9">
+                   @if (Model.Author != null)
+                    {
+                        <input class="form-control" type="text" asp-for="Author.UserName">
+                    }
+                    else
+                    {
+                        <input class="form-control" type="text" value="User Deleted !">
+                    }
+                </div><!-- col-8 -->
+            </div><!-- row -->
+            <div class="row no-gutters">
+                <div class="col-5 col-sm-3">
+                    Content :
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-9">
+                    <div class="editable" contenteditable="false">
+                        @Html.Raw(Model.Content)
+                    </div>
+                </div><!-- col-8 -->
+            </div><!-- row -->
+            <div class="form-layout-footer mg-t-30">
+                <button class="btn btn-primary bd-0">Approve</button>
+                <button class="btn btn-secondary bd-0">Cancel</button>
+            </div><!-- form-layout-footer -->
+        </div><!-- form-layout -->
+    </div><!-- section-wrapper -->
+</form>
+<div>
+    <a asp-area="Admin" asp-controller="Post" asp-action="Index">Back to List</a>
+</div>
+
+

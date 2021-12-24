@@ -1,0 +1,21 @@
+﻿@model List<Blog.App.Data.Models.Category>
+
+@if(Model != null)
+ {
+    @foreach (var item in Model)
+     {
+        
+         <li class="nav-item dropdown">
+             <a class="nav-link dropdown-toggle" href="/@item.Alias">@item.CatName</a>
+             <ul class="dropdown-menu">
+                @if (item.InverseCatParent != null && item.InverseCatParent.Any())
+                 {
+                    foreach (var item2 in item.InverseCatParent)
+                    {
+                        <li><a class="dropdown-item" href="/@item2.Alias"> @item2.CatName</a></li>
+                    }
+                 }
+             </ul>
+         </li>
+     }
+ }

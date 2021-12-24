@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Blog.App.Data.Models.User>
+@using Blog.App.WebApp.Enums
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="slim-pageheader">
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a asp-area="admin" asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">User Manager</li>
+    </ol>
+    <h6 class="slim-pagetitle">User</h6>
+</div><!-- slim-pageheader -->
+<h5>
+    <a asp-area="Admin" asp-controller="User" asp-action="Create">Create New</a>
+</h5>
+
+@if (GlobalVariable.IsAdminUser)
+{
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group mg-b-10-force">
+                <select class="form-control" id="roleID" name="roleID" asp-items="@ViewBag.RoleId">
+                    <option value="0"> Filtter with Role</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group mg-b-10-force">
+                <input class="form-control" placeholder="Search for user" type="text" id="keyword" name="keyword" />
+            </div>
+        </div>
+    </div>
+}
+
+<div class="section-wrapper mg-t-20">
+    <div class="table-responsive">
+        <table class="table table-hover mg-b-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Phone Number</th>
+                    <th>Status</th>
+                    <th>Last Login</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.UserId</th>
+                            <td>@item.UserName</td>
+                            <td>@item.Email</td>
+                            <td>
+                                @if (item.Role != null)
+                                {
+                                    <span>@item.Role.RoleName</span>
+                                }
+                                else
+                                {
+                                    <span>Null</span>
+                                }
+                            </td>
+                            <td>@item.Phone</td>
+                            <td>@item.Status</td>
+                            <td>@item.LastLogin</td>
+                            <td>
+                                <a asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
+                                <a asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@item.UserId">Details</a> |
+                                <a asp-area="Admin" asp-controller="User" asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div><!-- table-responsive -->
+</div><!-- section-wrapper -->
+
+@section Scripts
+{
+    <script src="~/AdminAssets/Handle/js/Filtter.js"></script>
+}

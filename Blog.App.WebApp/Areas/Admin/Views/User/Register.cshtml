@@ -1,0 +1,50 @@
+﻿@model Blog.App.WebApp.Areas.Admin.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="signin-box signup">
+
+    <h2 class="slim-logo"><a asp-area="admin" asp-controller="Home" asp-action="Index">Blog<span>.</span></a></h2>
+    <h3 class="signin-title-primary">Get Started!</h3>
+    <h5 class="signin-title-secondary lh-4">It's free to signup and only takes a minute.</h5>
+
+    <form asp-area="admin" asp-controller="User" asp-action="Register" method="post">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row row-xs mg-b-20">
+            <div class="col-sm">
+                <input type="text" class="form-control" placeholder="Firstname" asp-for="FirstName">
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="col-sm mg-t-20 mg-sm-t-0">
+                <input type="text" class="form-control" placeholder="Lastname" asp-for="LastName">
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div><!-- row -->
+        <div class="row row-xs mg-b-20">
+            <div class="col-sm">
+                <input type="text" class="form-control" placeholder="Email" asp-for="Email">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="col-sm mg-t-20 mg-sm-t-0">
+                <input type="text" class="form-control" placeholder="Phone Number" asp-for="PhoneNumber">
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div><!-- row -->
+
+        <div class="row row-xs mg-b-20">
+            <div class="col-sm">
+                <input type="password" class="form-control" placeholder="Password" asp-for="Password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="col-sm mg-t-20 mg-sm-t-0">
+                <input type="password" class="form-control" placeholder="Confirm Password" asp-for="ConfirmPassword">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+        </div><!-- row -->
+        <button class="btn btn-primary btn-block btn-signin">Sign Up</button>
+        <p class="mg-t-40 mg-b-0">Already have an account? <a href="dang-nhap.html">Sign In</a></p>
+    </form>
+</div><!-- signin-box -->

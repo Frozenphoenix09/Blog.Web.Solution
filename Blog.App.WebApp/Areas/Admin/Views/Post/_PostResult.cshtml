@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Blog.App.Data.Models.Post>
+
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td scope="row">@item.Title</td>
+            <td>
+                @if (item.Author != null)
+                {
+                    <span>@item.Author.UserName </span>
+                }
+                else
+                {
+                    <span>User Deleted</span>
+                }
+            </td>
+            <td>@item.AuthorName</td>
+            <td>@item.Cat.CatName</td>
+            <td>@item.Status</td>
+            <td>@item.DateCreate</td>
+            <td>
+                <a asp-area="Admin" asp-controller="Posts" asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
+                <a asp-area="Admin" asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId">Details</a> |
+                <a asp-area="Admin" asp-controller="Posts" asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
+            </td>
+
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="7">
+            No Data
+        </td>
+    </tr>
+}

@@ -1,0 +1,72 @@
+﻿@model Blog.App.Data.Models.Category
+@using Blog.App.WebApp.Enums
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<!-- slim-pageheader -->
+<div class="slim-pageheader">
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a asp-area="admin" asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Category Manager</li>
+    </ol>
+    <h6 class="slim-pagetitle">Category - Create</h6>
+</div><!-- slim-pageheader -->
+
+<div class="section-wrapper">
+    <form asp-area="Admin" asp-controller="Category" asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Alias" />
+        <div class="form-layout form-layout-4">
+            <div class="row mg-t-20">
+                <label class="col-sm-4 form-control-label">Category Name <span class="tx-danger">*</span></label>
+                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <input type="text" class="form-control" asp-for="CatName">
+                    <span asp-validation-for="CatName" class="text-danger"></span>
+                </div>
+            </div><!-- row -->
+
+            <div class="row mg-t-20">
+                <label class="col-sm-4 form-control-label">Layout Type <span class="tx-danger">*</span></label>
+                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <input type="text" class="form-control" asp-for="LayoutType">
+                    <span asp-validation-for="LayoutType" class="text-danger"></span>
+                </div>
+            </div><!-- row -->
+
+            <div class="row mg-t-20">
+                <label class="col-sm-4 form-control-label">Layout Description <span class="tx-danger">*</span></label>
+                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <input type="text" class="form-control" asp-for="LayoutDescription">
+                    <span asp-validation-for="LayoutDescription" class="text-danger"></span>
+                </div>
+            </div><!-- row -->
+            <div class="row mg-t-20">
+                <label class="col-sm-4 form-control-label"> Category ParentID <span class="tx-danger">*</span></label>
+                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <select asp-for="CatParentId" class="form-control" asp-items="ViewBag.CatParentId"> <option value="">Select Category Parent </option></select>
+                </div>
+            </div>
+            <div class="row mg-t-20">
+                <label class="col-sm-4 form-control-label"></label>
+                <div class="col-lg-4">
+                    <label class="ckbox">
+                        <input type="checkbox" asp-for="ShowOnMenu"><span>Show On Menu</span>
+                    </label>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <label class="ckbox">
+                        <input type="checkbox" asp-for="ShowOnHome"><span>Show On Home </span>
+                    </label>
+                </div><!-- col-4 -->
+            </div>
+            <div class="form-layout-footer mg-t-30">
+                <button class="btn btn-primary bd-0">Create</button>
+                <button class="btn btn-secondary bd-0" asp-area="admin" asp-controller="Category" asp-action="Index">Cancel</button>
+            </div><!-- form-layout-footer -->
+        </div><!-- form-layout -->
+    </form>
+</div><!-- section-wrapper -->
+<div>
+    <a asp-area="admin" asp-controller="Category" asp-action="Index">Back to List</a>
+</div>

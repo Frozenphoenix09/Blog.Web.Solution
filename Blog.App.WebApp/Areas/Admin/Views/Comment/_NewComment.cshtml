@@ -1,0 +1,21 @@
+﻿<div class="comment-form rounded bordered padding-30">
+    <form id="comment-form" class="comment-form" asp-area="admin" asp-controller="Comment" asp-action="CreateAReplyComment" method="post">
+        <input type="hidden" name="commentParentID" value="@ViewBag.CommentParentID" />
+        <input type="hidden" name="alias" value="@ViewBag.Alias" />
+        <input type="hidden" name="postID" value="@ViewBag.PostID" />
+        <div class="messages"></div>
+        <div class="row">
+            <div class="column col-md-12">
+
+                <div class="form-group">
+                    <input type="email" class="form-control" id="InputEmail" name="email" placeholder="Email address ..." required="required">
+                </div>
+
+                <div class="form-group">
+                    <textarea name="content" id="InputComment" class="form-control" rows="3" placeholder="Your comment here..." required="required"></textarea>
+                </div>
+            </div>
+        </div>
+        <button type="submit" name="submit" id="submit" value="Submit" class="btn btn-default">Submit</button>
+    </form>
+</div>

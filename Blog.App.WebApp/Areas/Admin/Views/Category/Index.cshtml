@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Blog.App.Data.Models.Category>
+
+@{
+    ViewData["Title"] = "Category - Index";
+    Layout = "~/Areas/admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="slim-pageheader">
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a asp-area="admin" asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Category Manager</li>
+    </ol>
+    <h6 class="slim-pagetitle">Category</h6>
+</div><!-- slim-pageheader -->
+<h5>
+    <a asp-area="Admin" asp-controller="Category" asp-action="Create">Create New</a>
+</h5>
+<div class="section-wrapper mg-t-20">
+    <div class="table-responsive">
+        <table class="table table-hover mg-b-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Category Name</th>
+                    <th>Category Parent</th>
+                    <th>Layout Type</th>
+                    <th>Layout Description</th>
+                    <th>Show On Home</th>
+                    <th>Show On Menu</th>
+                    <th>Action </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td scope="row">@item.CatId</td>
+                            <td>@item.CatName</td>
+                            <td>
+                                @if (item.CatParent != null)
+                                {
+                                    <span>@item.CatParent.CatName</span>
+                                }
+                                else
+                                {
+                                    <span></span>
+                                }
+                            </td>
+                            <td>@item.LayoutType</td>
+                            <td>@item.LayoutDescription</td>
+                            <td>@item.ShowOnHome</td>
+                            <td>@item.ShowOnMenu</td>
+                            <td>
+                                <a asp-area="Admin" asp-controller="Category" asp-action="Edit" asp-route-id="@item.CatId">Edit</a> |
+                                <a asp-area="Admin" asp-controller="Category" asp-action="Details" asp-route-id="@item.CatId">Details</a> |
+                                <a asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-id="@item.CatId">Delete</a>
+                            </td>
+
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div><!-- table-responsive -->
+</div><!-- section-wrapper -->

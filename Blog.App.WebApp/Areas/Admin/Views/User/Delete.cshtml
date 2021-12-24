@@ -1,0 +1,81 @@
+﻿@using Blog.App.WebApp.Enums
+@model Blog.App.Data.Models.User 
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="slim-pageheader">
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">User Manager</li>
+    </ol>
+    <h6 class="slim-pagetitle">User - Delete</h6>
+</div><!-- slim-pageheader -->
+<div class="section-wrapper mg-t-20">
+
+    <div class="form-layout form-layout-7">
+        <div class="row no-gutters">
+            <div class="col-5 col-sm-4">
+                User Name :
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8">
+                <input class="form-control" type="text" asp-for="UserName">
+            </div><!-- col-8 -->
+        </div><!-- row -->
+        <div class="row no-gutters">
+            <div class="col-5 col-sm-4">
+                Email :
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8">
+                <input class="form-control" type="text" asp-for="Email">
+            </div><!-- col-8 -->
+        </div><!-- row -->
+        <div class="row no-gutters">
+            <div class="col-5 col-sm-4">
+                Role :
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8">
+                @if (Model.Role != null)
+                {
+                    <input class="form-control" type="text" asp-for="Role.RoleName">
+                }
+                else
+                {
+                    <input class="form-control" type="text" value="">
+                }
+            </div><!-- col-8 -->
+        </div><!-- row -->
+        <div class="row no-gutters">
+            <div class="col-5 col-sm-4">
+                Phone Number :
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8">
+                <input class="form-control" type="text" asp-for="Phone">
+            </div><!-- col-8 -->
+        </div><!-- row -->
+        <div class="row no-gutters">
+            <div class="col-5 col-sm-4">
+                Last Login :
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8">
+                <input class="form-control" type="text" asp-for="LastLogin">
+            </div><!-- col-8 -->
+        </div><!-- row -->
+        <div class="row no-gutters">
+            <div class="col-5 col-sm-4">
+                Status :
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8">
+                <input class="form-control" type="text" asp-for="Status">
+            </div><!-- col-8 -->
+        </div><!-- row -->
+    </div><!-- form-layout -->
+</div><!-- section-wrapper -->
+<div style="text-align:center !important" class="form-layout-footer mg-t-30">
+    <form asp-area="Admin" asp-controller="User" asp-action="Delete" asp-route-id="@Model.UserId">
+        <input type="hidden" asp-for="UserId" />
+        <input type="submit" value="Are you sure to delete !? " class=" btn btn-danger" />
+        <a asp-area="Admin" asp-controller="User" asp-action="Index" class=" btn btn-success bd-0"> Back to list</a>
+    </form>
+</div>

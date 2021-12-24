@@ -1,0 +1,48 @@
+﻿@model Blog.App.Data.Models.Role
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="slim-pageheader">
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a asp-area="admin" asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Role Manager</li>
+    </ol>
+    <h6 class="slim-pagetitle">Role - Create</h6>
+</div><!-- slim-pageheader -->
+<div class="section-wrapper">
+    <form asp-area="Admin" asp-controller="Role" asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-layout form-layout-4">
+            <div class="row">
+                <label class="col-sm-4 form-control-label">Role Name <span class="tx-danger">*</span></label>
+                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <input type="text" class="form-control" asp-for="RoleName">
+                    <span asp-validation-for="RoleName" class="text-danger"></span>
+                </div>
+            </div><!-- row -->
+            <div class="row">
+                <label class="col-sm-4 form-control-label">Role Description <span class="tx-danger">*</span></label>
+                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <input type="text" class="form-control" asp-for="RoleDescription">
+                    <span asp-validation-for="RoleDescription" class="text-danger"></span>
+                </div>
+            </div><!-- row -->
+            <div class="row">
+                <label class="col-sm-4 form-control-label">Is Admin <span class="tx-danger">*</span></label>
+                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <input type="checkbox" asp-for="IsAdmin" />
+                </div>
+            </div><!-- row -->
+
+            <div class="form-layout-footer mg-t-30">
+                <button class="btn btn-primary bd-0">Create</button>
+                <button class="btn btn-secondary bd-0" asp-area="admin" asp-controller="Role" asp-action="Index">Cancel</button>
+            </div><!-- form-layout-footer -->
+        </div><!-- form-layout -->
+    </form>
+</div><!-- section-wrapper -->
+<div>
+    <a asp-area="admin" asp-controller="Role" asp-action="Index">Back to List</a>
+</div>

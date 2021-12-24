@@ -1,0 +1,865 @@
+﻿@model List<Blog.App.WebApp.Models.HomeViewModel>
+  
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- hero section -->
+<section id="hero">
+
+    <div class="container-xl">
+        <div class="row gy-4">
+            @if (ViewBag.LastestPost != null && ViewBag.LastestPost.Count > 0)
+            {
+                string url = $"/{ViewBag.LastestPost[0].Alias}.html";
+                <div class="col-lg-8">
+
+                    <!-- lastest post large -->
+                    <div class="post featured-post-lg">
+                        <div class="details clearfix">
+                            @if (ViewBag.LastestPost[0].Cat != null)
+                            {
+                                <a href="/@ViewBag.LastestPost[0].Cat.Alias" class="category-badge"> @ViewBag.LastestPost[0].Cat.CatName</a>
+                            }
+                            <h2 class="post-title" style="font-family : Merriweather,serif; font-weight:bold;"> <a href="@url">@ViewBag.LastestPost[0].Title </a></h2>
+                            <ul class="meta list-inline mb-0">
+                                @if (ViewBag.LastestPost[0].AuthorName != null && ViewBag.LastestPost[0].Author != null)
+                                {
+                                    <li class="list-inline-item"> @ViewBag.LastestPost[0].AuthorName</li>
+                                }
+                                @if (ViewBag.LastestPost[0].AuthorName != null && ViewBag.LastestPost[0].Author == null)
+                                {
+                                    <li class="list-inline-item"> @ViewBag.LastestPost[0].AuthorName</li>
+                                }
+                                @if (ViewBag.LastestPost[0].AuthorName == null && ViewBag.LastestPost[0].Author != null)
+                                {
+                                    <li class="list-inline-item"> @ViewBag.LastestPost[0].Author.UserName</li>
+                                }
+                                else if (ViewBag.LastestPost[0].AuthorName == null && ViewBag.LastestPost[0].Author == null)
+                                {
+                                    <li class="list-inline-item">Author Deleted !</li>
+                                }
+                                <li class="list-inline-item">@ViewBag.LastestPost[0].DateCreate</li>
+                            </ul>
+                        </div>
+                        <a href="@url">
+                            <div class="thumb rounded" href="@url">
+                                <img src="~/images/news/@ViewBag.LastestPost[0].Thumb" />
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+
+            <div class="col-lg-4">
+
+                <!-- post tabs -->
+                <div class="post-tabs rounded bordered">
+                    <!-- tab navs -->
+                    <ul class="nav nav-tabs nav-pills nav-fill" id="postsTab" role="tablist">
+                        <li class="nav-item" role="presentation"><button aria-controls="popular" aria-selected="true" class="nav-link active" data-bs-target="#popular" data-bs-toggle="tab" id="popular-tab" role="tab" type="button">Popular</button></li>
+                        <li class="nav-item" role="presentation"><button aria-controls="recent" aria-selected="false" class="nav-link" data-bs-target="#recent" data-bs-toggle="tab" id="recent-tab" role="tab" type="button">Recent</button></li>
+                    </ul>
+                    <!-- tab contents -->
+                    <div class="tab-content" id="postsTabContent">
+                        <!-- loader -->
+                        <div class="lds-dual-ring"></div>
+                        <!-- populars posts -->
+                        <div aria-labelledby="popular-tab" class="tab-pane fade show active" id="popular" role="tabpanel">
+
+                            @if (ViewBag.Populars != null && ViewBag.Populars.Count > 0)
+                            {
+                                foreach (var item in ViewBag.Populars)
+                                {
+                                    string url = $"/{item.Alias}.html";
+
+                                    <!-- post -->
+                                    <div class="post post-list-sm circle">
+                                        <div class="thumb circle">
+                                            <a href="@url">
+                                                <div style="width:60px;height:60px" class="inner">
+                                                    <img style="width:100%; height:100%; object-fit:fill;" image-rendering:-moz-crisp-edges;" src="~/images/news/@item.Thumb" alt="@item.Title" class="img-fluid" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0"><a href="@url"><span style="font-family : Merriweather,serif; font-weight:bold;">@item.Title </span></a></h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">@item.DateCreate</li>
+                                                <li class="list-inline-item">Views :  @item.ViewCount</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                        </div>
+                        <!-- recents posts -->
+                        <div aria-labelledby="recent-tab" class="tab-pane fade" id="recent" role="tabpanel">
+
+                            @if (ViewBag.Recents != null && ViewBag.Recents.Count > 0)
+                            {
+                                foreach (var item in ViewBag.Recents)
+                                {
+                                    string url = $"/{item.Alias}.html";
+
+                                    <!-- post -->
+                                    <div class="post post-list-sm circle">
+                                        <div class="thumb circle">
+                                            <a href="@url">
+                                                <div class="inner">
+                                                    <img style="width:60px;height:60px;" src="~/images/news/@item.Thumb" alt="@item.Title" class="img-fluid" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0"><span style="font-family : Merriweather,serif; font-weight:bold;">@item.Title </span></h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">@item.DateCreate</li>
+                                                <li class="list-inline-item">Views :  @item.ViewCount</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<section class="main-content">
+    <div class="container-xl">
+
+        <div class="row gy-4">
+
+            <div class="col-lg-8">
+                @if (Model != null && Model.Any())
+                {
+                    for (int i = 0; i < Model.Count(); i++)
+                    {
+                        if (Model[i].Category.LayoutType == 1)
+                        {
+                            string url = $"/{Model[i].CategoryPosts[0].Alias}.html";
+                            string url1 = $"/{Model[i].CategoryPosts[1].Alias}.html";
+                            string url2 = $"/{Model[i].CategoryPosts[2].Alias}.html";
+                            string url3 = $"/{Model[i].CategoryPosts[3].Alias}.html";
+                            string url4 = $"/{Model[i].CategoryPosts[4].Alias}.html";
+                            <!-- section header -->
+                            <div class="section-header">
+                                <h3 class="section-title">@Model[i].Category.CatName</h3>
+                                <img src="images/wave.svg" class="wave" alt="wave" />
+                            </div>
+
+                            <div class="padding-30 rounded bordered">
+                                <div class="row gy-5">
+                                    <div class="col-sm-6">
+                                        <!-- post -->
+                                        <div class="post">
+                                            <div class="thumb rounded">
+                                                <a href="/@Model[i].Category.Alias" class="category-badge position-absolute">@Model[i].Category.CatName</a>
+                                                <span class="post-format">
+                                                    <i class="icon-picture"></i>
+                                                </span>
+                                                <a href="@url">
+                                                    <div class="inner">
+                                                        <img style="width:325px;height:233.4px;" src="images/news/@Model[i].CategoryPosts[0].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <ul class="meta list-inline mt-4 mb-0">
+                                                @if (Model[i].CategoryPosts[0].Author != null && Model[i].CategoryPosts[0].AuthorName != null)
+                                                {
+                                                    <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />@Model[i].CategoryPosts[0].Author.UserName</a></li>
+                                                }
+                                                else if (Model[i].CategoryPosts[0].Author == null && Model[i].CategoryPosts[0].AuthorName != null)
+                                                {
+                                                    <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />@Model[i].CategoryPosts[0].AuthorName</a></li>
+                                                }
+                                                else
+                                                {
+                                                    <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />Author Deleted !</a></li>
+                                                }
+                                                <li class="list-inline-item">@Model[i].CategoryPosts[0].DateCreate</li>
+                                            </ul>
+                                            <h5 class="post-title mb-3 mt-3" style="font-family : Merriweather,serif; font-weight:bold;"><a href="@Model[i].CategoryPosts[0].Alias">@Model[i].CategoryPosts[0].Title</a></h5>
+                                            <p class="excerpt mb-0">@Model[i].CategoryPosts[0].ShortDescription</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <!-- post -->
+                                        <div class="post post-list-sm square">
+                                            <div class="thumb rounded">
+                                                <a href="@url1">
+                                                    <div class="inner">
+                                                        <img style="width:110px;height:80px;" src="images/news/@Model[i].CategoryPosts[1].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details clearfix">
+                                                <h6 class="post-title my-0" style="font-family : Merriweather,serif; font-weight:bold;"><a href="@url1">@Model[i].CategoryPosts[1].Title</a></h6>
+                                                <ul class="meta list-inline mt-1 mb-0">
+                                                    <li class="list-inline-item">@Model[i].CategoryPosts[1].DateCreate</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- post -->
+                                        <div class="post post-list-sm square">
+                                            <div class="thumb rounded">
+                                                <a href="@url2">
+                                                    <div class="inner">
+                                                        <img style="width:110px;height:80px;" src="images/news/@Model[i].CategoryPosts[2].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details clearfix">
+                                                <h6 class="post-title my-0" style="font-family : Merriweather,serif; font-weight:bold;"><a href="@url2">@Model[i].CategoryPosts[2].Title</a></h6>
+                                                <ul class="meta list-inline mt-1 mb-0">
+                                                    <li class="list-inline-item">@Model[i].CategoryPosts[2].DateCreate</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="post post-list-sm square">
+                                            <div class="thumb rounded">
+                                                <a href="@url3">
+                                                    <div class="inner">
+                                                        <img style="width:110px;height:80px;" src="images/news/@Model[i].CategoryPosts[3].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details clearfix">
+                                                <h6 class="post-title my-0" style="font-family : Merriweather,serif; font-weight:bold;"><a href="@url3">@Model[i].CategoryPosts[3].Title</a></h6>
+                                                <ul class="meta list-inline mt-1 mb-0">
+                                                    <li class="list-inline-item">@Model[i].CategoryPosts[3].DateCreate</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="post post-list-sm square">
+                                            <div class="thumb rounded">
+                                                <a href="@url4">
+                                                    <div class="inner">
+                                                        <img style="width:110px;height:80px;" src="images/news/@Model[i].CategoryPosts[4].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details clearfix">
+                                                <h6 class="post-title my-0" style="font-family : Merriweather,serif; font-weight:bold;"><a href="@url4">@Model[i].CategoryPosts[4].Title</a></h6>
+                                                <ul class="meta list-inline mt-1 mb-0">
+                                                    <li class="list-inline-item">@Model[i].CategoryPosts[4].DateCreate</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- space  -->
+                            <div class="spacer" data-height="50"></div>
+                        }
+
+                        if (Model[i].Category.LayoutType == 2)
+                        {
+                            string url = $"/{Model[i].CategoryPosts[0].Alias}.html";
+                            string url1 = $"/{Model[i].CategoryPosts[1].Alias}.html";
+                            string url2 = $"/{Model[i].CategoryPosts[2].Alias}.html";
+                            string url3 = $"/{Model[i].CategoryPosts[3].Alias}.html";
+                            string url4 = $"/{Model[i].CategoryPosts[4].Alias}.html";
+                            string url5 = $"/{Model[i].CategoryPosts[5].Alias}.html";
+
+                            <!-- space  -->
+                            <div class="spacer" data-height="50"></div>
+
+                            <!-- section header -->
+                            <div class="section-header">
+                                <h3 class="section-title">@Model[i].Category.CatName</h3>
+                                <img src="images/wave.svg" class="wave" alt="wave" />
+                            </div>
+
+                            <div class="padding-30 rounded bordered">
+                                <div class="row gy-5">
+                                    <div class="col-sm-6">
+                                        <!-- post large -->
+                                        <div class="post">
+                                            <div class="thumb rounded">
+                                                <a href="@Model[i].Category.Alias" class="category-badge position-absolute">@Model[i].Category.CatName</a>
+                                                <span class="post-format">
+                                                    <i class="icon-picture"></i>
+                                                </span>
+                                                <a href="@url">
+                                                    <div class="inner">
+                                                        <img style="width:100%;height:100%;" src="images/news/@Model[i].CategoryPosts[0].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <ul class="meta list-inline mt-4 mb-0">
+                                                @if (Model[i].CategoryPosts[0].Author != null && Model[i].CategoryPosts[0].AuthorName != null)
+                                                {
+                                                    <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />@Model[i].CategoryPosts[0].Author.UserName</a></li>
+                                                }
+                                                else if (Model[i].CategoryPosts[0].Author == null && Model[i].CategoryPosts[0].AuthorName != null)
+                                                {
+                                                    <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />@Model[i].CategoryPosts[0].AuthorName</a></li>
+                                                }
+                                                else
+                                                {
+                                                    <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />Author Deleted !</a></li>
+                                                }
+                                                <li class="list-inline-item">@Model[i].CategoryPosts[0].DateCreate</li>
+                                            </ul>
+                                            <h5 class="post-title mb-3 mt-3"><a href="@url" style="font-family : Merriweather,serif; font-weight:bold;">@Model[i].CategoryPosts[0].Title</a></h5>
+                                            <p class="excerpt mb-0">@Model[i].CategoryPosts[0].ShortDescription</p>
+                                        </div>
+                                        <!-- post -->
+                                        <div class="post post-list-sm square before-seperator">
+                                            <div class="thumb rounded">
+                                                <a href="@url2">
+                                                    <div class="inner">
+                                                        <img src="images/news/@Model[i].CategoryPosts[2].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details clearfix">
+                                                <h6 class="post-title my-0" style="font-family : Merriweather,serif; font-weight:bold;"><a href="@url2">@Model[i].CategoryPosts[2].Title</a></h6>
+                                                <ul class="meta list-inline mt-1 mb-0">
+                                                    <li class="list-inline-item">@Model[i].CategoryPosts[2].DateCreate</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- post -->
+                                        <div class="post post-list-sm square before-seperator">
+                                            <div class="thumb rounded">
+                                                <a href="@url4">
+                                                    <div class="inner">
+                                                        <img src="images/news/@Model[i].CategoryPosts[4].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details clearfix">
+                                                <h6 class="post-title my-0" style="font-family : Merriweather,serif; font-weight:bold;"><a href="@url4">@Model[i].CategoryPosts[4].Title</a></h6>
+                                                <ul class="meta list-inline mt-1 mb-0">
+                                                    <li class="list-inline-item">@Model[i].CategoryPosts[4].DateCreate</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <!-- post large -->
+                                        <div class="post">
+                                            <div class="thumb rounded">
+                                                <a href="@Model[i].Category.Alias" class="category-badge position-absolute">@Model[i].Category.CatName</a>
+                                                <span class="post-format">
+                                                    <i class="icon-picture"></i>
+                                                </span>
+                                                <a href="@url1">
+                                                    <div class="inner">
+                                                        <img style="width:100%;height:100%;" src="images/news/@Model[i].CategoryPosts[1].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <ul class="meta list-inline mt-4 mb-0">
+                                                @if (Model[i].CategoryPosts[1].Author != null && Model[i].CategoryPosts[1].AuthorName != null)
+                                                {
+                                                    <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />@Model[i].CategoryPosts[1].Author.UserName</a></li>
+                                                }
+                                                else if (Model[i].CategoryPosts[1].Author == null && Model[i].CategoryPosts[1].AuthorName != null)
+                                                {
+                                                    <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />@Model[i].CategoryPosts[1].AuthorName</a></li>
+                                                }
+                                                else
+                                                {
+                                                    <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />Author Deleted !</a></li>
+                                                }
+                                                <li class="list-inline-item">@Model[i].CategoryPosts[1].DateCreate</li>
+                                            </ul>
+                                            <h5 class="post-title mb-3 mt-3" style="font-family : Merriweather,serif; font-weight:bold;"><a href="@url1">@Model[i].CategoryPosts[1].Title</a></h5>
+                                            <p class="excerpt mb-0">@Model[i].CategoryPosts[1].ShortDescription</p>
+                                        </div>
+                                        <!-- post -->
+                                        <div class="post post-list-sm square before-seperator">
+                                            <div class="thumb rounded">
+                                                <a href="@url3">
+                                                    <div class="inner">
+                                                        <img src="images/news/@Model[i].CategoryPosts[3].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details clearfix">
+                                                <h6 class="post-title my-0" style="font-family : Merriweather,serif; font-weight:bold;"><a href="@url3">@Model[i].CategoryPosts[3].Title</a></h6>
+                                                <ul class="meta list-inline mt-1 mb-0">
+                                                    <li class="list-inline-item">@Model[i].CategoryPosts[3].DateCreate</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- post -->
+                                        <div class="post post-list-sm square before-seperator">
+                                            <div class="thumb rounded">
+                                                <a href="@url5">
+                                                    <div class="inner">
+                                                        <img src="images/news/@Model[i].CategoryPosts[5].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details clearfix">
+                                                <h6 class="post-title my-0" style="font-family : Merriweather,serif; font-weight:bold;"><a href="@url5">@Model[i].CategoryPosts[5].Title</a></h6>
+                                                <ul class="meta list-inline mt-1 mb-0">
+                                                    <li class="list-inline-item">@Model[i].CategoryPosts[5].DateCreate</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="spacer" data-height="50"></div>
+                        }
+
+                        if (Model[i].Category.LayoutType == 3)
+                        {
+                            string url = $"/{Model[i].CategoryPosts[0].Alias}.html";
+                            string url1 = $"/{Model[i].CategoryPosts[1].Alias}.html";
+                            string url2 = $"/{Model[i].CategoryPosts[2].Alias}.html";
+                            string url3 = $"/{Model[i].CategoryPosts[3].Alias}.html";
+
+                            <!-- section header -->
+                            <div class="section-header">
+                                <h3 class="section-title">@Model[i].Category.CatName</h3>
+                                <img src="images/wave.svg" class="wave" alt="wave" />
+                            </div>
+                            <div class="padding-30 rounded bordered">
+
+                                <div class="row">
+
+                                    <div class="col-md-12 col-sm-6">
+                                        <!-- post -->
+                                        <div class="post post-list clearfix">
+                                            <div class="thumb rounded">
+                                                <span class="post-format-sm">
+                                                    <i class="icon-picture"></i>
+                                                </span>
+                                                <a href="@url">
+                                                    <div class="inner">
+                                                        <img src="images/news/@Model[i].CategoryPosts[0].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details">
+                                                <ul class="meta list-inline mb-3">
+                                                    @if (Model[i].CategoryPosts[0].Author != null && Model[i].CategoryPosts[0].AuthorName != null)
+                                                    {
+                                                        <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />@Model[i].CategoryPosts[0].Author.UserName</a></li>
+                                                    }
+                                                    else if (Model[i].CategoryPosts[0].Author == null && Model[i].CategoryPosts[0].AuthorName != null)
+                                                    {
+                                                        <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />@Model[i].CategoryPosts[0].AuthorName</a></li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />Author Deleted !</a></li>
+                                                    }
+                                                    <li class="list-inline-item"><a href="@Model[i].Category.Alias">@Model[i].Category.CatName</a></li>
+                                                    <li class="list-inline-item">@Model[i].CategoryPosts[0].DateCreate</li>
+                                                </ul>
+                                                <h5 class="post-title" style="font-family : Merriweather,serif; font-weight:bold;"><a href="@url">@Model[i].CategoryPosts[0].Title</a></h5>
+                                                <p class="excerpt mb-0">@Model[i].CategoryPosts[0].ShortDescription</p>
+                                                <div class="post-bottom clearfix d-flex align-items-center">
+                                                    <div class="social-share me-auto">
+                                                        <button class="toggle-button icon-share"></button>
+                                                        <ul class="icons list-unstyled list-inline mb-0">
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="far fa-envelope"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="more-button float-end">
+                                                        <a href="@url"><span class="icon-options"></span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-sm-6">
+                                        <!-- post -->
+                                        <div class="post post-list clearfix">
+                                            <div class="thumb rounded">
+                                                <span class="post-format-sm">
+                                                    <i class="icon-picture"></i>
+                                                </span>
+                                                <a href="@url1">
+                                                    <div class="inner">
+                                                        <img src="images/news/@Model[i].CategoryPosts[1].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details">
+                                                <ul class="meta list-inline mb-3">
+                                                    @if (Model[i].CategoryPosts[1].Author != null && Model[i].CategoryPosts[1].AuthorName != null)
+                                                    {
+                                                        <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />@Model[i].CategoryPosts[1].Author.UserName</a></li>
+                                                    }
+                                                    else if (Model[i].CategoryPosts[1].Author == null && Model[i].CategoryPosts[1].AuthorName != null)
+                                                    {
+                                                        <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />@Model[i].CategoryPosts[1].AuthorName</a></li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />Author Deleted !</a></li>
+                                                    }
+                                                    <li class="list-inline-item"><a href="@Model[i].Category.Alias">@Model[i].Category.CatName</a></li>
+                                                    <li class="list-inline-item">@Model[i].CategoryPosts[1].DateCreate</li>
+                                                </ul>
+                                                <h5 class="post-title" style="font-family : Merriweather,serif; font-weight:bold;"><a href="@url1">@Model[i].CategoryPosts[1].Title</a></h5>
+                                                <p class="excerpt mb-0">@Model[i].CategoryPosts[1].ShortDescription</p>
+                                                <div class="post-bottom clearfix d-flex align-items-center">
+                                                    <div class="social-share me-auto">
+                                                        <button class="toggle-button icon-share"></button>
+                                                        <ul class="icons list-unstyled list-inline mb-0">
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="far fa-envelope"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="more-button float-end">
+                                                        <a href="@url1"><span class="icon-options"></span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-sm-6">
+                                        <!-- post -->
+                                        <div class="post post-list clearfix">
+                                            <div class="thumb rounded">
+                                                <span class="post-format-sm">
+                                                    <i class="icon-picture"></i>
+                                                </span>
+                                                <a href="@url2">
+                                                    <div class="inner">
+                                                        <img src="images/news/@Model[i].CategoryPosts[2].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details">
+                                                <ul class="meta list-inline mb-3">
+                                                    @if (Model[i].CategoryPosts[2].Author != null && Model[i].CategoryPosts[2].AuthorName != null)
+                                                    {
+                                                        <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />@Model[i].CategoryPosts[2].Author.UserName</a></li>
+                                                    }
+                                                    else if (Model[i].CategoryPosts[2].Author == null && Model[i].CategoryPosts[2].AuthorName != null)
+                                                    {
+                                                        <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />@Model[i].CategoryPosts[2].AuthorName</a></li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />Author Deleted !</a></li>
+                                                    }
+                                                    <li class="list-inline-item"><a href="@Model[i].Category.Alias">@Model[i].Category.CatName</a></li>
+                                                    <li class="list-inline-item">@Model[i].CategoryPosts[2].DateCreate</li>
+                                                </ul>
+                                                <h5 class="post-title" style="font-family : Merriweather,serif; font-weight:bold;"><a href="@url2">@Model[i].CategoryPosts[2].Title</a></h5>
+                                                <p class="excerpt mb-0">@Model[i].CategoryPosts[2].ShortDescription</p>
+                                                <div class="post-bottom clearfix d-flex align-items-center">
+                                                    <div class="social-share me-auto">
+                                                        <button class="toggle-button icon-share"></button>
+                                                        <ul class="icons list-unstyled list-inline mb-0">
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="far fa-envelope"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="more-button float-end">
+                                                        <a href="@url2"><span class="icon-options"></span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-sm-6">
+                                        <!-- post -->
+                                        <div class="post post-list clearfix">
+                                            <div class="thumb rounded">
+                                                <span class="post-format-sm">
+                                                    <i class="icon-picture"></i>
+                                                </span>
+                                                <a href="@url3">
+                                                    <div class="inner">
+                                                        <img src="images/news/@Model[i].CategoryPosts[3].Thumb" alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details">
+                                                <ul class="meta list-inline mb-3">
+                                                    @if (Model[i].CategoryPosts[3].Author != null && Model[i].CategoryPosts[3].AuthorName != null)
+                                                    {
+                                                        <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />@Model[i].CategoryPosts[3].Author.UserName</a></li>
+                                                    }
+                                                    else if (Model[i].CategoryPosts[3].Author == null && Model[i].CategoryPosts[3].AuthorName != null)
+                                                    {
+                                                        <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />@Model[i].CategoryPosts[3].AuthorName</a></li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="list-inline-item"><a href="#"><img src="images/other/Author.png" class="author" alt="author" />Author Deleted !</a></li>
+                                                    }
+                                                    <li class="list-inline-item"><a href="@Model[i].Category.Alias">@Model[i].Category.CatName</a></li>
+                                                    <li class="list-inline-item">@Model[i].CategoryPosts[3].DateCreate</li>
+                                                </ul>
+                                                <h5 class="post-title" style="font-family : Merriweather,serif; font-weight:bold;"><a href="blog-single.html">@Model[i].CategoryPosts[3].Title</a></h5>
+                                                <p class="excerpt mb-0">@Model[i].CategoryPosts[3].ShortDescription</p>
+                                                <div class="post-bottom clearfix d-flex align-items-center">
+                                                    <div class="social-share me-auto">
+                                                        <button class="toggle-button icon-share"></button>
+                                                        <ul class="icons list-unstyled list-inline mb-0">
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
+                                                            <li class="list-inline-item"><a href="#"><i class="far fa-envelope"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="more-button float-end">
+                                                        <a href="@url3"><span class="icon-options"></span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                }
+            </div>
+
+            <div class="col-lg-4">
+
+                <!-- sidebar -->
+                <div class="sidebar">
+                    <!-- widget about -->
+                    <div class="widget rounded">
+                        <div class="widget-about data-bg-image text-center" data-bg-image="images/map-bg.png">
+                            <img src="images/logo.svg" alt="logo" class="mb-4" />
+                            <p class="mb-4">Hello, We’re content writer who is fascinated by content fashion, celebrity and lifestyle. We helps clients bring the right content to the right people.</p>
+                            <ul class="social-icons list-unstyled list-inline mb-0">
+                                <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
+                                <li class="list-inline-item"><a href="#"><i class="fab fa-medium"></i></a></li>
+                                <li class="list-inline-item"><a href="#"><i class="fab fa-youtube"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- widget popular posts -->
+                    <div class="widget rounded">
+                        <div class="widget-header text-center">
+                            <h3 class="widget-title">Popular Posts</h3>
+                            <img src="images/wave.svg" class="wave" alt="wave" />
+                        </div>
+                        <div class="widget-content">
+                            <!-- post -->
+                            <div class="post post-list-sm circle">
+                                <div class="thumb circle">
+                                    <span class="number">1</span>
+                                    <a href="blog-single.html">
+                                        <div class="inner">
+                                            <img src="images/posts/tabs-1.jpg" alt="post-title" />
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="details clearfix">
+                                    <h6 class="post-title my-0"><a href="blog-single.html">3 Easy Ways To Make Your iPhone Faster</a></h6>
+                                    <ul class="meta list-inline mt-1 mb-0">
+                                        <li class="list-inline-item">29 March 2021</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- post -->
+                            <div class="post post-list-sm circle">
+                                <div class="thumb circle">
+                                    <span class="number">2</span>
+                                    <a href="blog-single.html">
+                                        <div class="inner">
+                                            <img src="images/posts/tabs-2.jpg" alt="post-title" />
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="details clearfix">
+                                    <h6 class="post-title my-0"><a href="blog-single.html">An Incredibly Easy Method That Works For All</a></h6>
+                                    <ul class="meta list-inline mt-1 mb-0">
+                                        <li class="list-inline-item">29 March 2021</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- post -->
+                            <div class="post post-list-sm circle">
+                                <div class="thumb circle">
+                                    <span class="number">3</span>
+                                    <a href="blog-single.html">
+                                        <div class="inner">
+                                            <img src="images/posts/tabs-3.jpg" alt="post-title" />
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="details clearfix">
+                                    <h6 class="post-title my-0"><a href="blog-single.html">10 Ways To Immediately Start Selling Furniture</a></h6>
+                                    <ul class="meta list-inline mt-1 mb-0">
+                                        <li class="list-inline-item">29 March 2021</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- widget categories -->
+                    <div class="widget rounded">
+                        <div class="widget-header text-center">
+                            <h3 class="widget-title">Explore Topics</h3>
+                            <img src="images/wave.svg" class="wave" alt="wave" />
+                        </div>
+                        <div class="widget-content">
+                            <ul class="list">
+                                <li><a href="#">Lifestyle</a><span>(5)</span></li>
+                                <li><a href="#">Inspiration</a><span>(2)</span></li>
+                                <li><a href="#">Fashion</a><span>(4)</span></li>
+                                <li><a href="#">Politic</a><span>(1)</span></li>
+                                <li><a href="#">Trending</a><span>(7)</span></li>
+                                <li><a href="#">Culture</a><span>(3)</span></li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <!-- widget newsletter -->
+                    <div class="widget rounded">
+                        <div class="widget-header text-center">
+                            <h3 class="widget-title">Newsletter</h3>
+                            <img src="images/wave.svg" class="wave" alt="wave" />
+                        </div>
+                        <div class="widget-content">
+                            <span class="newsletter-headline text-center mb-3">Join 70,000 subscribers!</span>
+                            <form>
+                                <div class="mb-2">
+                                    <input class="form-control w-100 text-center" placeholder="Email address…" type="email">
+                                </div>
+                                <button class="btn btn-default btn-full" type="submit">Sign Up</button>
+                            </form>
+                            <span class="newsletter-privacy text-center mt-3">By signing up, you agree to our <a href="#">Privacy Policy</a></span>
+                        </div>
+                    </div>
+
+                    <!-- widget post carousel -->
+                    <div class="widget rounded">
+                        <div class="widget-header text-center">
+                            <h3 class="widget-title">Celebration</h3>
+                            <img src="images/wave.svg" class="wave" alt="wave" />
+                        </div>
+                        <div class="widget-content">
+                            <div class="post-carousel-widget">
+                                <!-- post -->
+                                <div class="post post-carousel">
+                                    <div class="thumb rounded">
+                                        <a href="category.html" class="category-badge position-absolute">How to</a>
+                                        <a href="blog-single.html">
+                                            <div class="inner">
+                                                <img src="images/widgets/widget-carousel-1.jpg" alt="post-title" />
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h5 class="post-title mb-0 mt-4"><a href="blog-single.html">5 Easy Ways You Can Turn Future Into Success</a></h5>
+                                    <ul class="meta list-inline mt-2 mb-0">
+                                        <li class="list-inline-item"><a href="#">Katen Doe</a></li>
+                                        <li class="list-inline-item">29 March 2021</li>
+                                    </ul>
+                                </div>
+                                <!-- post -->
+                                <div class="post post-carousel">
+                                    <div class="thumb rounded">
+                                        <a href="category.html" class="category-badge position-absolute">Trending</a>
+                                        <a href="blog-single.html">
+                                            <div class="inner">
+                                                <img src="images/widgets/widget-carousel-2.jpg" alt="post-title" />
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h5 class="post-title mb-0 mt-4"><a href="blog-single.html">Master The Art Of Nature With These 7 Tips</a></h5>
+                                    <ul class="meta list-inline mt-2 mb-0">
+                                        <li class="list-inline-item"><a href="#">Katen Doe</a></li>
+                                        <li class="list-inline-item">29 March 2021</li>
+                                    </ul>
+                                </div>
+                                <!-- post -->
+                                <div class="post post-carousel">
+                                    <div class="thumb rounded">
+                                        <a href="category.html" class="category-badge position-absolute">How to</a>
+                                        <a href="blog-single.html">
+                                            <div class="inner">
+                                                <img src="images/widgets/widget-carousel-1.jpg" alt="post-title" />
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h5 class="post-title mb-0 mt-4"><a href="blog-single.html">5 Easy Ways You Can Turn Future Into Success</a></h5>
+                                    <ul class="meta list-inline mt-2 mb-0">
+                                        <li class="list-inline-item"><a href="#">Katen Doe</a></li>
+                                        <li class="list-inline-item">29 March 2021</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- carousel arrows -->
+                            <div class="slick-arrows-bot">
+                                <button type="button" data-role="none" class="carousel-botNav-prev slick-custom-buttons" aria-label="Previous"><i class="icon-arrow-left"></i></button>
+                                <button type="button" data-role="none" class="carousel-botNav-next slick-custom-buttons" aria-label="Next"><i class="icon-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- widget advertisement -->
+                    <div class="widget no-container rounded text-md-center">
+                        <span class="ads-title">- Sponsored Ad -</span>
+                        <a href="#" class="widget-ads">
+                            <img src="images/ads/ad-360.png" alt="Advertisement" />
+                        </a>
+                    </div>
+
+                    <!-- widget tags -->
+                    <div class="widget rounded">
+                        <div class="widget-header text-center">
+                            <h3 class="widget-title">Tag Clouds</h3>
+                            <img src="images/wave.svg" class="wave" alt="wave" />
+                        </div>
+                        <div class="widget-content">
+                            <a href="#" class="tag">#Trending</a>
+                            <a href="#" class="tag">#Video</a>
+                            <a href="#" class="tag">#Featured</a>
+                            <a href="#" class="tag">#Gallery</a>
+                            <a href="#" class="tag">#Celebrities</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+

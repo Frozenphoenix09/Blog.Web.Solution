@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Blog.App.Data.Models.Post>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/AdminAssets/Handle/js/Filtter.js"></script>
+<script src="~/AdminAssets/Handle/js/Search.js"></script>
+
+<div class="slim-pageheader">
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Post Manager</li>
+    </ol>
+    <h6 class="slim-pagetitle">Post Manager</h6>
+</div><!-- slim-pageheader -->
+<h5>
+    <a asp-area="Admin" asp-controller="Post" asp-action="Create">Create New</a>
+</h5>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="form-group mg-b-10-force">
+            <select class="form-control" id="catID" name="catID" asp-items="@ViewBag.Category">
+                <option value="0"> Filtter with category</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group mg-b-10-force">
+            <input class="form-control" placeholder="Search for post" type="text" id="keyword" name="keyword" />
+        </div>
+    </div>
+</div>
+<div class="section-wrapper">
+    <div class="table-responsive">
+        <table class="table table-hover mg-b-0">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Owner</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Data Create</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="record_table">
+                @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.Title</th>
+                            <td>
+                               @if (item.Author != null)
+                                {
+                                    <span>@item.Author.UserName </span>
+                                }
+                                else
+                                {
+                                    <span>User Deleted</span>
+                                }
+                            </td>
+                            <td>@item.AuthorName</td>
+
+
+                            @if (item.Cat != null)
+                            {
+                                <td>@item.Cat.CatName</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                            <td>@item.Status</td>
+                            <td>@item.DateCreate</td>
+                            <td>
+                                <a asp-area="Admin" asp-controller="Post" asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
+                                <a asp-area="Admin" asp-controller="Post" asp-action="Details" asp-route-id="@item.PostId">Details</a> |
+                                <a asp-area="Admin" asp-controller="Post" asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
+                                @if (item.Status == "Pending")
+                                {
+                                    <a asp-area="Admin" asp-controller="Post" asp-action="ApprovePost" asp-route-id="@item.PostId">ApprovePost</a>
+                                }
+                            </td>
+
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div><!-- table-responsive -->
+</div><!-- section-wrapper -->
